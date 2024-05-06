@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - Quizify</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+    .navbar {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+    .navbar h2 {
+        margin: 0;
+    }
+    .about-container {
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .about-container h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .about-container p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    .typing-animation {
+        display: inline-block;
+        overflow: hidden;
+        animation: typing 1s steps(30, end) forwards;
+    }
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: auto;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="navbar">
+    <h2>Quizify</h2>
+</div>
+<div class="about-container">
+    <h1>About <span style="color: rgb(0, 238, 255);">Quizify</span></h1>
+    <p><span class="typing-animation">Welcome to Quizify, an online quiz platform designed to test your knowledge on various topics. Whether you're a trivia enthusiast or just looking to challenge yourself, Quizify has something for everyone.</span></p>
+    <p><span class="typing-animation">Our mission is to provide an engaging and educational experience for users of all ages. With a wide range of categories and difficulty levels, you can choose quizzes that match your interests and skill level.</span></p>
+    <p><span class="typing-animation">Join our community today and start exploring the world of Quizify!</span></p>
+</div>
+</body>
+</html>

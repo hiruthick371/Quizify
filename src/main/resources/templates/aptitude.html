@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quizify - Online Programming Quiz</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Light background color */
+    color: #2c3e50; /* Dark text color */
+  }
+
+  /* Navigation bar styles */
+  nav {
+    background-color: #34495e; /* Dark header color */
+    color: #f0f0f0; /* Light text color */
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  nav h1 {
+    margin: 0;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  #quiz {
+    background-color: #ecf0f1; /* Light background color */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
+    padding: 20px;
+    width: 80%; /* Updated width for better responsiveness */
+    max-width: 600px; /* Added max-width for better responsiveness */
+    margin: 20px auto; /* Added margin for centering */
+    text-align: center; /* Center align content */
+  }
+
+  #question {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  #timer {
+    font-size: 18px; /* Increased font size for timer */
+    margin-bottom: 20px; /* Added margin for spacing */
+    color: #27ae60; /* Green color for timer */
+  }
+
+  #options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #options button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2c3e50; /* Dark button color */
+    color: #f0f0f0; /* Light text color */
+    font-size: 14px; /* Reduced font size */
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #options button.correct {
+    background-color: #27ae60 !important; /* Green color for correct answer */
+  }
+
+  #options button.wrong {
+    background-color: #e74c3c !important; /* Red color for wrong answer */
+  }
+
+  #options button:hover {
+    background-color: #34495e; /* Darker hover color */
+  }
+
+  #nextBtn {
+    background-color: #3498db; /* Blue color for next question button */
+    color: #f0f0f0; /* Light text color */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #nextBtn:hover {
+    background-color: #2980b9; /* Darker hover color */
+  }
+
+  #result {
+    display: none;
+    background-color: #ecf0f1; /* Light background color */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
+    padding: 40px; /* Increased padding */
+    width: 80%; /* Updated width for better responsiveness */
+    max-width: 600px; /* Added max-width for better responsiveness */
+    margin: 20px auto; /* Added margin for centering */
+    color: #2c3e50; /* Dark text color */
+    text-align: center; /* Center align content */
+  }
+  .but{
+  font-family:Arial, sans-serif ;
+  padding: 12px 15px 12px;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #f0f0f0;
+  background-color: #2c3e50;;
+}
+  #score {
+    font-size: 24px; /* Increased font size */
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 5px #27ae60;
+    }
+    100% {
+      text-shadow: 0 0 20px #27ae60;
+    }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <h1>Quizify - Online Aptitude Quiz</h1>
+</nav>
+<div id="quiz">
+  <h2 id="question"></h2>
+  <div id="timer">Time left: <span id="time"></span> seconds</div>
+  <div id="options"></div>
+</div>
+<div id="result">
+  <h2>Quiz Result</h2>
+  <p id="score"></p>
+  <a href="index.html"> <button class="but" type="button">Home Page</button></a>
+</div>
+
+<script>
+  const questions = [
+    {
+      question: "If a car travels 40 miles in 1 hour, how many miles will it travel in 3 hours at the same speed?",
+      options: ["80 miles", "120 miles", "100 miles", "160 miles"],
+      answer: "120 miles"
+    },
+    {
+      question: "If a piece of rope 10 yards long is cut into pieces that are each 1/5 yards long, how many pieces will there be?",
+      options: ["25 pieces", "15 pieces", "50 pieces", "10 pieces"],
+      answer: "50 pieces"
+    },
+    {
+      question: "What is the average of the numbers 6, 8, 12, 16, and 20?",
+      options: ["14", "12", "16", "18"],
+      answer: "12"
+    },
+    {
+      question: "If a boat travels 60 miles downstream in 3 hours, how long will it take to travel the same distance upstream?",
+      options: ["1 hour", "2 hours", "3 hours", "4 hours"],
+      answer: "4 hours"
+    },
+    {
+      question: "If 3/4 of a number is 60, what is 1/4 of that number?",
+      options: ["10", "20", "15", "30"],
+      answer: "20"
+    },
+    {
+      question: "If the product of 3 and 9 is subtracted from the sum of 17 and 20, what is the result?",
+      options: ["10", "11", "9", "8"],
+      answer: "8"
+    },
+    {
+      question: "If the perimeter of a rectangle is 40 meters and its length is 12 meters, what is its width?",
+      options: ["8 meters", "10 meters", "16 meters", "20 meters"],
+      answer: "8 meters"
+    },
+    {
+      question: "If 3/5 of a number is 45, what is the number?",
+      options: ["75", "55", "60", "50"],
+      answer: "75"
+    },
+    {
+      question: "What is the next number in the series: 2, 4, 8, 16, ___?",
+      options: ["24", "32", "36", "64"],
+      answer: "32"
+    },
+    {
+      question: "If the area of a square is 64 square units, what is the length of one side?",
+      options: ["6 units", "7 units", "8 units", "9 units"],
+      answer: "8 units"
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+  let initialTime = 30; // Changed initialTime to 30 seconds
+  let timeLeft = initialTime;
+  let timerInterval;
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function displayQuestion() {
+    const questionElement = document.getElementById('question');
+    const optionsElement = document.getElementById('options');
+    const currentQ = questions[currentQuestion];
+    
+    questionElement.textContent = currentQ.question;
+
+    const shuffledOptions = shuffleArray([...currentQ.options]); // Shuffle options
+
+    const optionButtons = document.createElement('div');
+    optionButtons.id = 'optionButtons';
+
+    shuffledOptions.forEach((option, index) => {
+      const button = document.createElement('button');
+      button.textContent = option;
+      button.onclick = () => checkAnswer(option, button);
+      optionButtons.appendChild(button);
+    });
+    optionsElement.innerHTML = "";
+    optionsElement.appendChild(optionButtons);
+
+    startTimer();
+  }
+
+  function startTimer() {
+    timeLeft = initialTime;
+    updateTimer();
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      if (timeLeft < 0) {
+        clearInterval(timerInterval);
+        checkAnswer('');
+      } else {
+        updateTimer();
+      }
+    }, 1000);
+  }
+
+  function updateTimer() {
+    document.getElementById('time').textContent = timeLeft;
+  }
+
+  function checkAnswer(selectedOption, button) {
+    clearInterval(timerInterval);
+    const currentQ = questions[currentQuestion];
+    if (selectedOption && selectedOption.toLowerCase() === currentQ.answer.toLowerCase()) {
+      score++;
+      button.classList.add('correct');
+    } else {
+      // If wrong answer, highlight the correct answer
+      const correctButtonIndex = currentQ.options.findIndex(option => option.toLowerCase() === currentQ.answer.toLowerCase());
+      const correctButton = document.getElementById('optionButtons').children[correctButtonIndex];
+      correctButton.classList.add('correct');
+      button.classList.add('wrong');
+    }
+    setTimeout(() => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        displayQuestion();
+      } else {
+        showResult();
+      }
+    }, 2000);
+  }
+
+  function showResult() {
+    const quizDiv = document.getElementById('quiz');
+    const resultDiv = document.getElementById('result');
+    const scoreElement = document.getElementById('score');
+    quizDiv.style.display = 'none';
+    resultDiv.style.display = 'block';
+    scoreElement.textContent = `Your score is ${score} out of ${questions.length}`;
+  }
+
+  function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      displayQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  displayQuestion();
+</script>
+</body>
+</html>

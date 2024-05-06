@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quizify - Login</title>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Lato:600);
+
+ body {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background: #ffffff;
+ }
+
+ .rotating-text {
+   font-family: Lato, sans-serif;
+   font-weight: 600;
+   font-size: 36px;
+   color: white;
+   transform: translateX(-80px);
+   justify-content: center;
+   align-items: center;
+ }
+
+ .rotating-text p {
+   display: inline-flex;
+   margin: 0;
+   vertical-align: top;
+ }
+
+ .rotating-text .word {
+   position: absolute;
+   display: flex;
+   opacity: 0;
+ }
+
+ .rotating-text .word .letter {
+   transform-origin: center center 25px;
+ }
+
+ .rotating-text .word .letter.out {
+   transform: rotateX(90deg);
+   transition: 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
+ }
+
+ .rotating-text .word .letter.in {
+   transition: 0.38s ease;
+ }
+
+ .rotating-text .word .letter.behind {
+   transform: rotateX(-90deg);
+ }
+
+ /* palette: https://flatuicolors.com/palette/defo */
+ .alizarin {
+   color: #e74c3c;
+ }
+
+ .wisteria {
+   color: #8e44ad;
+ }
+
+ .peter-river {
+   color: #3498db;
+ }
+
+ .emerald {
+   color: #2ecc71;
+ }
+
+ .sun-flower {
+   color: #f1c40f;
+ }
+ .navbar {
+   background-color: #333; /* Background color */
+   overflow: hidden;
+   position: fixed;
+   top:0%;
+   width: 100%;
+   justify-content: center;
+   align-items: center;
+ }
+ .title{
+   position: relative;
+   font-family: Lato, sans-serif;
+   font-size: larger;
+   font-weight: bolder;
+   color: #ffffff;
+   right: 50px;
+ }
+  .subtitle{
+   position: relative;
+ padding-right: 10px;
+ font-size: larger;
+ top: 10px;
+ right: 30px;
+
+
+
+ }
+ .rotating-text{
+   position: relative;
+   left: 50%;
+ }
+ .login-container{
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: rgb(241, 241, 241);
+   padding: 100px;
+   border-radius: 7px;
+   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+ }
+ #loginBtn{
+   background-color:#eeca00;
+
+   border: 1px;
+
+   border-radius: 7px;
+   font-family: Arial, Helvetica, sans-serif;
+   color: rgb(255, 255, 255);
+   font-weight: bold;
+   font-size: larger;
+   padding: 20px 260px;
+   box-shadow: 5px 10px 5px rgb(219, 219, 219);
+ }
+ #loginBtn:hover{
+   background-color: #d1b200;
+ }
+ h1{
+   font-family: Arial, Helvetica, sans-serif;
+   font-weight: bolder;
+ }
+ #name{
+
+   border-radius: 7px;
+   border: 5px;
+   box-shadow: 5px 10px 5px rgb(219, 219, 219);
+   padding: 20px 200px;
+ }
+ #username::placeholder{
+   font-size: larger;
+ }
+  </style>
+</head>
+<body>
+<div class="navbar">
+
+  <div class="rotating-text">
+    <p class="title">Quizify is</p>
+    <p class="subtitle">
+      <span class="word alizarin">awesome.</span>
+      <span class="word wisteria">amazing.</span>
+      <span class="word peter-river">creative.</span>
+      <span class="word emerald">fabulous.</span>
+      <span class="word sun-flower">interesting.</span>
+    </p>
+  </div>
+
+</div>
+<div class="login-container">
+  <h1>Welcome to Quizify</h1>
+  <div class="login-box">
+    <form action="/login" method="post">
+      <label for="name">Enter your name:</label><br>
+      <input type="text" id="name" name="name"><br>
+      <a href="index.html"> <button id="loginBtn">login</button></a>
+    </form>
+  </div>
+</div>
+<script>
+  document.getElementById('name').addEventListener('input', function() {
+      var loginBtn = document.getElementById('loginBtn');
+      loginBtn.disabled = !this.value.trim();
+  });
+ // Get all elements with class "word"
+let words = document.querySelectorAll(".word");
+
+// Iterate over each word
+words.forEach(word => {
+// Split the word into individual letters
+let letters = word.textContent.split("");
+// Clear the word's text content
+word.textContent = "";
+// Iterate over each letter and create a span element for it
+letters.forEach(letter => {
+  let span = document.createElement("span");
+  span.textContent = letter;
+  span.className = "letter";
+  word.append(span);
+});
+});
+let currentWordIndex = 0;
+let maxWordIndex = words.length - 1;
+words[currentWordIndex].style.opacity = "1";
+
+let rotateText = () => {
+let currentWord = words[currentWordIndex];
+let nextWord =
+  currentWordIndex === maxWordIndex ? words[0] : words[currentWordIndex + 1];
+// Rotate out letters of the current word
+Array.from(currentWord.children).forEach((letter, i) => {
+  setTimeout(() => {
+    letter.className = "letter out";
+  }, i * 80);
+});
+// Reveal and rotate in letters of the next word
+nextWord.style.opacity = "1";
+Array.from(nextWord.children).forEach((letter, i) => {
+  letter.className = "letter behind";
+  setTimeout(() => {
+    letter.className = "letter in";
+  }, 340 + i * 80);
+});
+currentWordIndex =
+  currentWordIndex === maxWordIndex ? 0 : currentWordIndex + 1;
+};
+rotateText();
+setInterval(rotateText, 4000);
+</script>
+</body>
+</html>
