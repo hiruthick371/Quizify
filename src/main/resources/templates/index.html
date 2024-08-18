@@ -28,6 +28,9 @@
   function redirectToGkPage() {
       window.location.href = "/gk";
   }
+    function redirectToLoginPage() {
+      window.location.href = "/login";
+  }
   function redirectToAboutPage() {
       window.location.href = "/about";
   }
@@ -465,14 +468,16 @@
  
   <div> <div class="navbar">
     <div class="navbar-container">
-      <div class="logo-container"><h1 style="color: rgb(0, 238, 255);">Quizify ❤ </h1></div>
+      <div class="logo-container"><h2 th:text=" 'HEY '+ ${users}" style="color: rgb(0, 238, 255);"></h2>
+      <h3>  Welcome to Quizify!!</h3>
+      </div>
       <div class="menu-container">
         <ul class="menu-list">
-       <a href="login.html"> <li class="menu-list-item">Login</li></a>
-       <a  href="about.html"> <li class="menu-list-item">About</li></a>
-       <a   href="team.html"> <li class="menu-list-item">Team</li></a>
-       
-         
+       <a  onclick="redirectToLoginPage()"> <li class="menu-list-item">Login</li></a>
+       <a onclick="redirectToAboutPage()" > <li class="menu-list-item">About</li></a>
+       <a onclick="redirectToTeamPage()"  > <li class="menu-list-item">Team</li></a>
+
+
         </ul>
       </div>
     </div>

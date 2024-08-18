@@ -9,8 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -19,6 +22,8 @@ public class UserController {
     @Autowired
     private UserServiceImp userService;
 
+    User user = new User();
+
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
@@ -26,28 +31,26 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam("name") String name, RedirectAttributes redirectAttributes) {
-        User user = new User();
+
         user.setName(name);
         userService.saveUser(user); // Save the user to the database
         httpSession.setAttribute("name", name);
+        System.out.println(user.getName());
         // No need to add redirect attributes
         return "redirect:/index"; // Redirect to the external page URL
     }
 
-    @GetMapping("/index") // Define mapping for the external page
+    @GetMapping("/indexs") // Define mapping for the external page
     public String redirectToExternalPage() {
         // Return JavaScript to redirect to the external page
         return "index";
     }
 
-    @PostMapping("/index")
-    public String anime(@RequestParam("name") String name, RedirectAttributes redirectAttributes) {
-        User user = new User();
-        user.setName(name);
-        userService.saveUser(user); // Save the user to the database
-        httpSession.setAttribute("name", name);
-        // No need to add redirect attributes
-        return "redirect:/anime"; // Redirect to the external page URL
+    @GetMapping("/index")
+    public String anime(Model model) {
+        System.out.println("NAME"+user.getName());
+        model.addAttribute("users",user.getName());
+        return "index";
     }
     @GetMapping("/anime")
     public String showAnimePage() {
@@ -82,6 +85,13 @@ public class UserController {
     public String showGkPage() {
         return "gk";
     }
+
+    @GetMapping("/display")
+    public String viewData(ModelAndView modelAndView){
+        modelAndView.addObject("users",userService.getUserList());
+        return "index";
+    }
+    
 
 
 
