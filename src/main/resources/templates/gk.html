@@ -142,7 +142,7 @@
 <div id="result">
   <h2>Quiz Result</h2>
   <p id="score"></p>
- <a href="index.html"> <button class="but" type="button">Home Page</button></a>
+ <a href="/index"> <button onclick="redirectToHomePage()" class="but" type="button">Home Page</button></a>
 </div>
 
 
@@ -298,6 +298,10 @@
   }
 
   displayQuestion();
+
+   function redirectToHomePage(){
+  window.location.href ="/home";
+  }
 </script>
 </body>
 </html>

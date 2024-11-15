@@ -86,6 +86,8 @@ public class UserController {
         return "gk";
     }
 
+
+
     @GetMapping("/display")
     public String viewData(ModelAndView modelAndView){
         modelAndView.addObject("users",userService.getUserList());
